@@ -3,6 +3,7 @@ import { api } from "../../../utils/api/api";
 import { Button, TextField } from "@mui/material";
 
 import "./search.css";
+import { BookCards } from "../../shared";
 
 const Search = () => {
   const [search, setSearch] = useState<string>("harrypotter");
@@ -29,7 +30,18 @@ const Search = () => {
           <Button variant="contained">My BookShelf</Button>
         </div>
       </div>
-      <div className="bottom-section"></div>
+      <div className="bottom-section">
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+        <BookCards />
+      </div>
     </div>
   );
 };
