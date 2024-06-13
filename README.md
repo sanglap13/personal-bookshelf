@@ -9,7 +9,7 @@ A React application allowing users to search for books using the Open Library AP
 
 ## Deployment Link
 
-coming soon
+[https://personal-bookshelf-eta.vercel.app/](https://personal-bookshelf-eta.vercel.app/)
 
 ## Tech Stack
 
