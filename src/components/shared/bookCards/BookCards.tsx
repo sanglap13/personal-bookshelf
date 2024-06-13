@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./bookCards.css";
 import { Button } from "@mui/material";
+import { Book } from "../../../@types/Books.types";
 
-const BookCards = ({ title, edition }: any) => {
+const BookCards: React.FC<Book> = ({ title, edition_count }) => {
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+
+  const addToBookshelf = () => {
+    const bookshelf = JSON.parse(localStorage.getItem("bookshelf") || "[]");
+    const newBook = { title, edition_count };
+    localStorage.setItem("bookshelf", JSON.stringify([...bookshelf, newBook]));
+    setIsAdded(true);
+  };
+
+  useEffect(() => {
+    const bookshelf = JSON.parse(localStorage.getItem("bookshelf") || "[]");
+    const bookExists = bookshelf.some((book: Book) => book.title === title);
+    setIsAdded(bookExists);
+  }, [title]);
   return (
     <div className="book-cards">
       <div className="name">
@@ -12,10 +27,12 @@ const BookCards = ({ title, edition }: any) => {
       </div>
       <div className="edition">
         <h4 className="label">Edition Count:</h4>
-        <p className="value">{edition}</p>
+        <p className="value">{edition_count}</p>
       </div>
 
-      <Button variant="contained">Add to BookShelf</Button>
+      <Button variant="contained" onClick={addToBookshelf} disabled={isAdded}>
+        {isAdded ? "Added" : "Add to Bookshelf"}
+      </Button>
     </div>
   );
 };

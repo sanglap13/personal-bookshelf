@@ -5,11 +5,17 @@ import { Button, TextField } from "@mui/material";
 import "./search.css";
 import { BookCards, Loader } from "../../shared";
 import { Book } from "../../../@types/Books.types";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const [searchData, setSearchData] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleBookShelf = () => {
+    navigate("/bookshelf");
+  };
 
   const apiResponse = async () => {
     if (searchData.trim() !== "") {
@@ -41,7 +47,9 @@ const Search = () => {
           />
         </div>
         <div className="button-container">
-          <Button variant="contained">My BookShelf</Button>
+          <Button variant="contained" onClick={handleBookShelf}>
+            My BookShelf
+          </Button>
         </div>
       </div>
       <div className={loading ? "loader" : "bottom-section"}>
@@ -51,7 +59,11 @@ const Search = () => {
           books.map((book, index) => {
             const { title, edition_count } = book;
             return (
-              <BookCards key={index} title={title} edition={edition_count} />
+              <BookCards
+                key={index}
+                title={title}
+                edition_count={edition_count}
+              />
             );
           })
         ) : (
