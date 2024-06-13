@@ -4,6 +4,7 @@ import { Book } from "../../../@types/Books.types";
 import "./bookShelfCards.css";
 
 const BookShelfCards: React.FC<Book> = ({ title, edition_count }) => {
+  console.log(title, edition_count);
   return (
     <div className="book-shelf-cards">
       <div className="name">

@@ -11,14 +11,15 @@ const Bookshelf = () => {
   const [bookshelf, setBookshelf] = useState<Book[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedBooks = JSON.parse(localStorage.getItem("bookshelf") || "[]");
-    setBookshelf(storedBooks);
-  }, []);
-
   const goBack = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    const storedBooks = JSON.parse(localStorage.getItem("bookshelf") || "[]");
+    console.log("yo", storedBooks);
+    setBookshelf(storedBooks);
+  }, []);
 
   return (
     <div className="bookshelf-page">
@@ -32,11 +33,12 @@ const Bookshelf = () => {
         {bookshelf.length > 0 ? (
           bookshelf.map((book, index) => {
             const { title, edition_count } = book;
+            console.log("book", book, title, edition_count);
             return (
               <BookShelfCards
                 key={index}
                 title={title}
-                edition_count={edition_count}
+                edition_count={edition_count as number}
               />
             );
           })
