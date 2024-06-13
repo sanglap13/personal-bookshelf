@@ -18,6 +18,10 @@
   flex: 1;
 }
 
+.loader {
+  margin-top: 5rem;
+}
+
 .bottom-section {
   margin-top: 5rem;
   display: grid;

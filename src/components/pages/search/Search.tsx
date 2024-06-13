@@ -3,20 +3,23 @@ import { api } from "../../../utils/api/api";
 import { Button, TextField } from "@mui/material";
 
 import "./search.css";
-import { BookCards } from "../../shared";
+import { BookCards, Loader } from "../../shared";
 import { Book } from "../../../@types/Books.types";
 
 const Search = () => {
   const [searchData, setSearchData] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const apiResponse = async () => {
     if (searchData.trim() !== "") {
+      setLoading(true);
       const result = await api(searchData);
       console.log("first", result);
       if (result) {
         setBooks(result.docs);
       }
+      setLoading(false);
     }
   };
 
@@ -41,19 +44,19 @@ const Search = () => {
           <Button variant="contained">My BookShelf</Button>
         </div>
       </div>
-      <div className="bottom-section">
-        {books.length > 0 ? (
-          books.map((book, index) => (
-            <BookCards
-              key={index}
-              title={book.title}
-              edition={book.edition_count}
-            />
-          ))
+      <div className={loading ? "loader" : "bottom-section"}>
+        {loading ? (
+          <Loader />
+        ) : books.length > 0 ? (
+          books.map((book, index) => {
+            const { title, edition_count } = book;
+            return (
+              <BookCards key={index} title={title} edition={edition_count} />
+            );
+          })
         ) : (
           <p>No books found.</p>
         )}
-        {/* <BookCards title={"jod"} edition={100} /> */}
       </div>
     </div>
   );
