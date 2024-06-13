@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { api } from "../../../utils/api/api";
 import { Button, TextField } from "@mui/material";
 
 import "./search.css";
 import { BookCards } from "../../shared";
+import { Book } from "../../../@types/Books.types";
 
 const Search = () => {
-  const [search, setSearch] = useState<string>("harrypotter");
-  const apiResponse = () => {
-    const books = api(search);
+  const [searchData, setSearchData] = useState<string>("");
+  const [books, setBooks] = useState<Book[]>([]);
+
+  const apiResponse = async () => {
+    if (searchData.trim() !== "") {
+      const result = await api(searchData);
+      console.log("first", result);
+      if (result) {
+        setBooks(result.docs);
+      }
+    }
   };
 
   useEffect(() => {
     apiResponse();
-  }, [search]);
+  }, [searchData]);
   return (
     <div className="search-page">
       <div className="top-section">
@@ -24,6 +33,8 @@ const Search = () => {
             label="Search by Book Name"
             variant="outlined"
             sx={{ width: "100%" }}
+            onChange={(e) => setSearchData(e.target.value)}
+            value={searchData}
           />
         </div>
         <div className="button-container">
@@ -31,16 +42,18 @@ const Search = () => {
         </div>
       </div>
       <div className="bottom-section">
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
-        <BookCards />
+        {books.length > 0 ? (
+          books.map((book, index) => (
+            <BookCards
+              key={index}
+              title={book.title}
+              edition={book.edition_count}
+            />
+          ))
+        ) : (
+          <p>No books found.</p>
+        )}
+        {/* <BookCards title={"jod"} edition={100} /> */}
       </div>
     </div>
   );
